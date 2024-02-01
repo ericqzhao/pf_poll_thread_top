@@ -40,8 +40,8 @@ bool inited_g_thread_infos = false;
 void get_thread_data() {
 	httplib::Client cli("http://127.0.0.1:49181");
 	if (auto res = cli.Post("/api?op=get_thread_stats","{\"op\":\"get_thread_stats\"}","application/json")) {
-		cout << res->status << endl;
-		cout << res->get_header_value("Content-Type") << endl;
+		//cout << res->status << endl;
+		//cout << res->get_header_value("Content-Type") << endl;
 		//cout << res->body << endl;
 		nlohmann::json j = nlohmann::json::parse(res->body);
 		auto threads = j.get<std::vector<thread_stat>>();   
@@ -101,7 +101,7 @@ void show_thread_data() {
 	for (int i = 0; i < MAX_THREAD_NUM; i++) {
 		auto busy = g_thread_infos[i].busy - g_thread_infos[i].last_busy;
 		auto idle = g_thread_infos[i].idle - g_thread_infos[i].last_idle;
-                if (busy == 0 && idle == 0) {
+		if (busy == 0 && idle == 0) {
 			continue;
 		}
 		float percent = (float)busy / (float)(busy + idle);
